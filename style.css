@@ -1,22 +1,47 @@
 /* =========================================================
-   NEURAL ORB
-   FINAL VISUAL SYSTEM
+   NEURAL SHARD
+   MINIMAL FUTURISTIC WALLPAPER
+   ========================================================= */
+
+
+/* =========================================================
+   VARIABLES
    ========================================================= */
 
 :root {
-    --charcoal: #070808;
-    --charcoal-soft: #111313;
 
-    --cream: #f2eadb;
+    --black:
+        #050606;
 
-    --purple: #9b7cff;
+    --charcoal:
+        #0d0f0f;
 
+    --charcoal-light:
+        #171a19;
+
+    --concrete:
+        #e8e1d4;
+
+    --concrete-soft:
+        rgba(232, 225, 212, 0.48);
+
+    --purple:
+        #9b7cff;
+
+    --purple-light:
+        #c6baff;
+
+    --purple-dark:
+        #3d287d;
+
+
+    /* Mouse */
     --mouse-x: 0;
     --mouse-y: 0;
 
+    /* Proximity */
     --proximity: 0;
 
-    --orb-size: min(39vw, 610px);
 }
 
 
@@ -28,39 +53,46 @@
     box-sizing: border-box;
 }
 
+
 html,
 body {
+
     width: 100%;
     height: 100%;
+
     margin: 0;
+
 }
 
+
 body {
+
     overflow: hidden;
 
     background:
+
         radial-gradient(
-            ellipse at 50% 48%,
-            #181b1b 0%,
-            #111313 27%,
-            #090a0a 62%,
+            circle at 50% 48%,
+            #1b1e1d 0%,
+            #101212 30%,
+            #080909 65%,
             #030404 100%
         );
-
-    color: var(--cream);
 
     font-family:
         Arial,
         Helvetica,
         sans-serif;
+
 }
 
 
 /* =========================================================
-   SCENE
+   MAIN SCENE
    ========================================================= */
 
 .scene {
+
     position: relative;
 
     width: 100vw;
@@ -68,79 +100,89 @@ body {
 
     overflow: hidden;
 
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
     isolation: isolate;
+
 }
 
 
 /* =========================================================
-   BACKGROUND ATMOSPHERE
+   BACKGROUND LIGHT
    ========================================================= */
 
 .ambient {
+
     position: absolute;
 
-    width: 55vw;
-    height: 55vw;
+    width: 50vw;
+    height: 50vw;
 
     border-radius: 50%;
 
+    filter: blur(100px);
+
     pointer-events: none;
 
-    filter: blur(85px);
-
-    mix-blend-mode: screen;
-
-    transition: opacity 0.4s ease;
 }
 
 
-.ambient-one {
-    left: 10%;
-    top: 7%;
+.ambient-left {
+
+    left: 5%;
+    top: 10%;
 
     background:
+
         radial-gradient(
             circle,
-            rgba(242, 234, 219, 0.10),
-            transparent 69%
-        );
-
-    opacity: 0.42;
-
-    transform:
-        translate(
-            calc(var(--mouse-x) * -24px),
-            calc(var(--mouse-y) * -18px)
-        );
-}
-
-
-.ambient-two {
-    right: 4%;
-    bottom: -12%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(119, 85, 220, 0.09),
+            rgba(232, 225, 212, 0.07),
             transparent 70%
         );
 
-    opacity: 0.28;
+    transform:
+
+        translate(
+            calc(var(--mouse-x) * -25px),
+            calc(var(--mouse-y) * -18px)
+        );
+
+}
+
+
+.ambient-right {
+
+    right: 5%;
+    bottom: -10%;
+
+    background:
+
+        radial-gradient(
+            circle,
+            rgba(120, 90, 220, 0.055),
+            transparent 70%
+        );
 
     transform:
+
         translate(
-            calc(var(--mouse-x) * 28px),
-            calc(var(--mouse-y) * 20px)
+            calc(var(--mouse-x) * 22px),
+            calc(var(--mouse-y) * 15px)
         );
+
 }
 
 
 /* =========================================================
-   CANVAS NEURAL NETWORK
+   NEURAL NETWORK CANVAS
    ========================================================= */
 
 #networkCanvas {
+
     position: absolute;
 
     inset: 0;
@@ -151,335 +193,661 @@ body {
     pointer-events: none;
 
     z-index: 1;
+
 }
 
 
 /* =========================================================
-   MAIN ORB SYSTEM
+   MAIN ARTIFACT
    ========================================================= */
 
-.orb-system {
+.artifact {
+
+    position: relative;
+
+    width:
+        min(44vw, 620px);
+
+    aspect-ratio: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    transform:
+
+        translate3d(
+            calc(var(--mouse-x) * 15px),
+            calc(var(--mouse-y) * 12px),
+            0
+        )
+
+        rotateX(
+            calc(var(--mouse-y) * -3deg)
+        )
+
+        rotateY(
+            calc(var(--mouse-x) * 4deg)
+        );
+
+
+    transition:
+        transform 0.12s ease-out;
+
+
+    z-index: 5;
+
+}
+
+
+/* =========================================================
+   SOFT AURA
+   ========================================================= */
+
+.artifact-aura {
+
+    position: absolute;
+
+    width: 85%;
+    height: 85%;
+
+    border-radius: 50%;
+
+    background:
+
+        radial-gradient(
+            circle,
+            rgba(242, 234, 219, 0.055),
+            rgba(155, 124, 255, 0.018) 45%,
+            transparent 72%
+        );
+
+    filter:
+        blur(35px);
+
+    transform:
+
+        scale(
+            calc(1 + var(--proximity) * 0.08)
+        );
+
+}
+
+
+/* =========================================================
+   CONCRETE / GLASS SHELL
+   ========================================================= */
+
+.shell {
+
+    position: relative;
+
+    width: 82%;
+    height: 82%;
+
+    border-radius: 50%;
+
+
+    background:
+
+        radial-gradient(
+            circle at 34% 25%,
+            rgba(255, 255, 255, 0.10),
+            transparent 17%
+        ),
+
+        radial-gradient(
+            circle at 70% 75%,
+            rgba(255, 255, 255, 0.025),
+            transparent 40%
+        ),
+
+        radial-gradient(
+            circle,
+            #292d2b 0%,
+            #151817 37%,
+            #0b0d0d 72%,
+            #050606 100%
+        );
+
+
+    border:
+
+        1px solid
+        rgba(232, 225, 212, 0.18);
+
+
+    box-shadow:
+
+        0 45px 100px
+        rgba(0, 0, 0, 0.75),
+
+        0 0 70px
+        rgba(242, 234, 219, 0.025),
+
+        inset 22px 18px 50px
+        rgba(255, 255, 255, 0.045),
+
+        inset -35px -30px 70px
+        rgba(0, 0, 0, 0.78);
+
+
+    overflow: visible;
+
+}
+
+
+/* =========================================================
+   CONCRETE HIGHLIGHT
+   ========================================================= */
+
+.shell-light {
+
+    position: absolute;
+
+    width: 65%;
+    height: 30%;
+
+    left: 9%;
+    top: 8%;
+
+    border-radius: 50%;
+
+
+    background:
+
+        linear-gradient(
+            125deg,
+            rgba(242, 234, 219, 0.14),
+            rgba(242, 234, 219, 0.025),
+            transparent
+        );
+
+
+    filter:
+        blur(13px);
+
+
+    transform:
+        rotate(-20deg);
+
+}
+
+
+/* =========================================================
+   INNER SPACE
+   ========================================================= */
+
+.inner-space {
+
+    position: absolute;
+
+    inset: 9%;
+
+    border-radius: 50%;
+
+
+    background:
+
+        radial-gradient(
+            circle,
+            #0c0e0e 0%,
+            #090b0b 55%,
+            #040505 100%
+        );
+
+
+    box-shadow:
+
+        inset 0 0 55px
+        rgba(0, 0, 0, 0.75),
+
+        inset 0 0 20px
+        rgba(242, 234, 219, 0.025);
+
+}
+
+
+/* =========================================================
+   TECHNICAL WHITE COATING
+   ========================================================= */
+
+.technical-ring {
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+}
+
+
+/* Main thick incomplete arc */
+
+.ring-1 {
+
+    inset: -3%;
+
+    border:
+
+        2px solid
+        transparent;
+
+    border-top-color:
+        rgba(232, 225, 212, 0.78);
+
+    border-left-color:
+        rgba(232, 225, 212, 0.18);
+
+    transform:
+        rotate(-32deg);
+
+    box-shadow:
+
+        0 0 8px
+        rgba(232, 225, 212, 0.08);
+
+}
+
+
+/* Second delicate arc */
+
+.ring-2 {
+
+    inset: -7%;
+
+    border:
+
+        1px solid
+        transparent;
+
+    border-right-color:
+        rgba(232, 225, 212, 0.42);
+
+    border-bottom-color:
+        rgba(232, 225, 212, 0.12);
+
+    transform:
+        rotate(28deg);
+
+}
+
+
+/* Third micro ring */
+
+.ring-3 {
+
+    inset: -10%;
+
+    border:
+
+        1px solid
+        transparent;
+
+    border-top-color:
+        rgba(232, 225, 212, 0.18);
+
+    border-right-color:
+        rgba(232, 225, 212, 0.08);
+
+    transform:
+        rotate(150deg);
+
+}
+
+
+/* =========================================================
+   PURPLE 3D SHARD
+   ========================================================= */
+
+.crystal {
+
     position: absolute;
 
     left: 50%;
     top: 50%;
 
-    width: var(--orb-size);
-    aspect-ratio: 1;
+
+    width: 31%;
+    height: 46%;
+
 
     transform:
+
+        translate(-50%, -50%)
+
         translate3d(
-            calc(-50% + var(--mouse-x) * 17px),
-            calc(-50% + var(--mouse-y) * 15px),
+            calc(var(--mouse-x) * 7px),
+            calc(var(--mouse-y) * 7px),
             0
         )
-        rotateX(
-            calc(var(--mouse-y) * -4deg)
-        )
-        rotateY(
-            calc(var(--mouse-x) * 5deg)
+
+        rotate(
+            calc(var(--mouse-x) * 3deg)
         );
 
-    transform-style: preserve-3d;
 
-    perspective: 1200px;
+    transform-style:
+        preserve-3d;
 
-    z-index: 5;
+
+    filter:
+
+        drop-shadow(
+            0 0 14px
+            rgba(155, 124, 255, 0.42)
+        )
+
+        drop-shadow(
+            0 0 38px
+            rgba(155, 124, 255, 0.17)
+        );
+
 
     transition:
-        transform 0.12s ease-out;
+        transform 0.18s ease-out;
+
 }
 
 
 /* =========================================================
-   ORB AURA
+   SHARD FACES
    ========================================================= */
 
-.orb-aura {
+.crystal-face {
+
     position: absolute;
 
-    inset: -12%;
+    inset: 0;
 
-    border-radius: 50%;
+    clip-path:
 
-    background:
-        radial-gradient(
-            circle,
-            rgba(242, 234, 219, 0.055),
-            rgba(120, 91, 220, 0.022) 36%,
-            transparent 70%
+        polygon(
+            50% 0%,
+            100% 31%,
+            76% 68%,
+            50% 100%,
+            24% 68%,
+            0% 31%
         );
 
-    filter: blur(28px);
+}
+
+
+/* Left facet */
+
+.face-left {
+
+    background:
+
+        linear-gradient(
+            145deg,
+            #d4ccff 0%,
+            #9b7cff 30%,
+            #563da9 68%,
+            #26184f 100%
+        );
+
+    clip-path:
+
+        polygon(
+            50% 0%,
+            50% 100%,
+            24% 68%,
+            0% 31%
+        );
+
+}
+
+
+/* Right facet */
+
+.face-right {
+
+    background:
+
+        linear-gradient(
+            145deg,
+            #9e84ff 0%,
+            #6f53d4 38%,
+            #39267e 75%,
+            #160e31 100%
+        );
+
+    clip-path:
+
+        polygon(
+            50% 0%,
+            100% 31%,
+            76% 68%,
+            50% 100%
+        );
+
+}
+
+
+/* Center facet */
+
+.face-center {
+
+    background:
+
+        linear-gradient(
+            160deg,
+            rgba(244, 241, 255, 0.48),
+            rgba(155, 124, 255, 0.28),
+            rgba(49, 30, 108, 0.42)
+        );
+
+
+    clip-path:
+
+        polygon(
+            50% 7%,
+            72% 31%,
+            50% 91%,
+            28% 31%
+        );
+
+
+    mix-blend-mode:
+        screen;
+
+}
+
+
+/* =========================================================
+   CRYSTAL EDGE
+   ========================================================= */
+
+.crystal-edge {
+
+    position: absolute;
+
+    inset: 0;
+
+
+    clip-path:
+
+        polygon(
+            50% 0%,
+            100% 31%,
+            76% 68%,
+            50% 100%,
+            24% 68%,
+            0% 31%
+        );
+
+
+    border: 1px solid
+        rgba(218, 209, 255, 0.35);
+
+}
+
+
+/* =========================================================
+   CRYSTAL LIGHT
+   ========================================================= */
+
+.crystal-light {
+
+    position: absolute;
+
+    width: 38%;
+    height: 16%;
+
+    left: 20%;
+    top: 11%;
+
+
+    background:
+
+        linear-gradient(
+            130deg,
+            rgba(255, 255, 255, 0.62),
+            rgba(255, 255, 255, 0)
+        );
+
+
+    filter:
+        blur(5px);
+
+
+    transform:
+        rotate(-24deg);
 
     opacity:
-        calc(0.6 + var(--proximity) * 0.35);
+        calc(0.35 + var(--proximity) * 0.4);
 
-    transform:
-        scale(
-            calc(1 + var(--proximity) * 0.055)
-        );
-
-    z-index: -1;
 }
 
 
 /* =========================================================
-   GLASS ORB SHELL
+   INNER PURPLE CORE
    ========================================================= */
 
-.orb-shell {
+.core-light {
+
     position: absolute;
 
-    inset: 6%;
+    width: 12%;
+    height: 12%;
+
+    left: 50%;
+    top: 48%;
+
+    transform:
+        translate(-50%, -50%);
 
     border-radius: 50%;
 
-    overflow: visible;
 
     background:
-        radial-gradient(
-            circle at 31% 23%,
-            rgba(255, 255, 255, 0.08),
-            transparent 15%
-        ),
-
-        radial-gradient(
-            circle at 68% 71%,
-            rgba(255, 255, 255, 0.018),
-            transparent 39%
-        ),
 
         radial-gradient(
             circle,
-            rgba(18, 21, 21, 0.83),
-            rgba(5, 6, 6, 0.92)
+            rgba(245, 240, 255, 0.8),
+            rgba(178, 155, 255, 0.35) 35%,
+            transparent 72%
         );
 
-    border:
-        1px solid
-        rgba(242, 234, 219, 0.11);
 
-    box-shadow:
+    filter:
+        blur(5px);
 
-        0 50px 120px
-        rgba(0, 0, 0, 0.72),
 
-        0 0 90px
-        rgba(255, 255, 255, 0.018),
+    opacity:
+        calc(0.35 + var(--proximity) * 0.5);
 
-        inset 20px 16px 55px
-        rgba(255, 255, 255, 0.03),
-
-        inset -40px -35px 75px
-        rgba(0, 0, 0, 0.82);
-
-    backdrop-filter:
-        blur(2px);
-
-    transform:
-        translateZ(0);
 
     animation:
-        orb-float 8s ease-in-out infinite;
+        core-pulse 4s ease-in-out infinite;
+
 }
 
 
-@keyframes orb-float {
+@keyframes core-pulse {
 
     0%,
     100% {
-        margin-top: 0;
+        transform:
+            translate(-50%, -50%)
+            scale(0.9);
     }
 
     50% {
-        margin-top: -4px;
+        transform:
+            translate(-50%, -50%)
+            scale(1.12);
     }
+
 }
 
 
 /* =========================================================
-   SVG
+   CURSOR GLOW
    ========================================================= */
 
-.orb-svg {
+.cursor-glow {
+
     position: absolute;
 
-    inset: -7%;
-
-    width: 114%;
-    height: 114%;
-
-    overflow: visible;
-
-    transform:
-        rotate(
-            calc(var(--mouse-x) * 1.8deg)
-        );
-
-    transition:
-        transform 0.25s ease-out;
-}
-
-
-/* =========================================================
-   WHITE TECHNICAL COATING
-   ========================================================= */
-
-.ring {
-    transform-box: fill-box;
-    transform-origin: center;
-}
-
-
-.ring-a {
-    animation:
-        ring-spin-a 26s linear infinite;
-}
-
-
-.ring-b {
-    animation:
-        ring-spin-b 38s linear infinite reverse;
-}
-
-
-.ring-c {
-    animation:
-        ring-spin-c 48s linear infinite;
-}
-
-
-@keyframes ring-spin-a {
-
-    from {
-        transform:
-            rotate(-34deg);
-    }
-
-    to {
-        transform:
-            rotate(326deg);
-    }
-}
-
-
-@keyframes ring-spin-b {
-
-    from {
-        transform:
-            rotate(32deg);
-    }
-
-    to {
-        transform:
-            rotate(392deg);
-    }
-}
-
-
-@keyframes ring-spin-c {
-
-    from {
-        transform:
-            rotate(140deg);
-    }
-
-    to {
-        transform:
-            rotate(500deg);
-    }
-}
-
-
-/* =========================================================
-   PURPLE HEART / SHARD
-   ========================================================= */
-
-.orb-core {
-    transform-box: fill-box;
-    transform-origin: center;
-}
-
-
-/* =========================================================
-   CURSOR HALO
-   ========================================================= */
-
-.cursor-halo {
-    position: absolute;
-
-    width: 140px;
-    height: 140px;
+    width: 170px;
+    height: 170px;
 
     left: 0;
     top: 0;
 
-    margin-left: -70px;
-    margin-top: -70px;
+    margin-left: -85px;
+    margin-top: -85px;
 
     border-radius: 50%;
 
-    pointer-events: none;
 
     background:
+
         radial-gradient(
             circle,
-            rgba(242, 234, 219, 0.035),
+            rgba(242, 234, 219, 0.04),
             transparent 68%
         );
 
-    filter: blur(8px);
 
-    opacity:
-        calc(0.08 + var(--proximity) * 0.12);
+    filter:
+        blur(8px);
+
+
+    pointer-events:
+        none;
+
 
     transform:
-        translate3d(
+
+        translate(
             var(--cursor-x, 50vw),
-            var(--cursor-y, 50vh),
-            0
+            var(--cursor-y, 50vh)
         );
+
+
+    opacity:
+        calc(0.15 + var(--proximity) * 0.15);
+
 
     z-index: 20;
+
 }
 
 
 /* =========================================================
-   SUBTLE FILM GRAIN
-   ========================================================= */
-
-.scene::before {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    opacity: 0.035;
-
-    background-image:
-        radial-gradient(
-            rgba(255, 255, 255, 0.7) 0.5px,
-            transparent 0.5px
-        );
-
-    background-size:
-        5px 5px;
-
-    mix-blend-mode: soft-light;
-
-    z-index: 30;
-}
-
-
-/* =========================================================
-   PROXIMITY VIGNETTE
+   SUBTLE VIGNETTE
    ========================================================= */
 
 .scene::after {
+
     content: "";
 
     position: absolute;
@@ -488,15 +856,35 @@ body {
 
     pointer-events: none;
 
+
     background:
+
         radial-gradient(
-            ellipse at 50% 50%,
-            transparent 38%,
-            rgba(0, 0, 0, 0.16) 78%,
-            rgba(0, 0, 0, 0.4) 100%
+            ellipse at center,
+            transparent 45%,
+            rgba(0, 0, 0, 0.15) 75%,
+            rgba(0, 0, 0, 0.42) 100%
         );
 
-    z-index: 25;
+
+    z-index: 15;
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    .artifact {
+
+        width:
+            min(75vw, 500px);
+
+    }
+
 }
 
 
@@ -506,27 +894,14 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
 
-    .orb-shell,
-    .ring-a,
-    .ring-b,
-    .ring-c {
-        animation: none;
-    }
+    .artifact,
+    .crystal,
+    .core-light {
 
-    .orb-system,
-    .orb-svg {
         transition: none;
+
+        animation: none;
+
     }
-}
 
-
-/* =========================================================
-   SMALL SCREENS
-   ========================================================= */
-
-@media (max-width: 800px) {
-
-    :root {
-        --orb-size: min(72vw, 500px);
-    }
 }
