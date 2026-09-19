@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Orb Parallax Wallpaper</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Neural Orb</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,11 +16,57 @@
 <body>
 
     <main class="scene">
-        <div class="orb">
-            <div class="orb-core"></div>
+
+        <!-- Ambient background -->
+        <div class="ambient ambient-one"></div>
+        <div class="ambient ambient-two"></div>
+
+        <!-- Neural network -->
+        <div class="network" aria-hidden="true">
+
+            <span class="node node-1"></span>
+            <span class="node node-2"></span>
+            <span class="node node-3"></span>
+            <span class="node node-4"></span>
+            <span class="node node-5"></span>
+            <span class="node node-6"></span>
+            <span class="node node-7"></span>
+            <span class="node node-8"></span>
+
+            <span class="connection connection-1"></span>
+            <span class="connection connection-2"></span>
+            <span class="connection connection-3"></span>
+            <span class="connection connection-4"></span>
+            <span class="connection connection-5"></span>
+            <span class="connection connection-6"></span>
+            <span class="connection connection-7"></span>
+            <span class="connection connection-8"></span>
         </div>
+
+        <!-- Main glass orb -->
+        <div class="orb">
+
+            <!-- Incomplete technical coating -->
+            <div class="orb-coating coating-one"></div>
+            <div class="orb-coating coating-two"></div>
+
+            <!-- Internal atmospheric layer -->
+            <div class="orb-atmosphere"></div>
+
+            <!-- Purple heart -->
+            <div class="orb-core">
+                <div class="core-inner"></div>
+            </div>
+
+        </div>
+
+        <!-- Small peripheral technical marks -->
+        <div class="technical-mark mark-one"></div>
+        <div class="technical-mark mark-two"></div>
+
     </main>
 
     <script src="script.js"></script>
+
 </body>
 </html>
