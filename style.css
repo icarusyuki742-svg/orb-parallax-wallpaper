@@ -1,26 +1,22 @@
 /* =========================================================
-   NEURAL ORB — VISUAL SYSTEM
+   NEURAL ORB
+   FINAL VISUAL SYSTEM
    ========================================================= */
 
 :root {
-    --charcoal: #080909;
-    --charcoal-soft: #101212;
+    --charcoal: #070808;
+    --charcoal-soft: #111313;
 
     --cream: #f2eadb;
-    --cream-soft: rgba(242, 234, 219, 0.62);
-
-    --glass: rgba(255, 255, 255, 0.035);
-    --glass-light: rgba(255, 255, 255, 0.07);
-
-    --border: rgba(242, 234, 219, 0.12);
 
     --purple: #9b7cff;
-    --purple-deep: #6046c0;
 
     --mouse-x: 0;
     --mouse-y: 0;
 
     --proximity: 0;
+
+    --orb-size: min(39vw, 610px);
 }
 
 
@@ -44,11 +40,11 @@ body {
 
     background:
         radial-gradient(
-            circle at 50% 45%,
+            ellipse at 50% 48%,
             #181b1b 0%,
-            var(--charcoal-soft) 28%,
-            var(--charcoal) 68%,
-            #040505 100%
+            #111313 27%,
+            #090a0a 62%,
+            #030404 100%
         );
 
     color: var(--cream);
@@ -72,15 +68,12 @@ body {
 
     overflow: hidden;
 
-    display: grid;
-    place-items: center;
-
     isolation: isolate;
 }
 
 
 /* =========================================================
-   AMBIENT LIGHT
+   BACKGROUND ATMOSPHERE
    ========================================================= */
 
 .ambient {
@@ -93,62 +86,67 @@ body {
 
     pointer-events: none;
 
-    filter: blur(80px);
+    filter: blur(85px);
 
-    opacity: 0.18;
+    mix-blend-mode: screen;
 
-    z-index: -3;
+    transition: opacity 0.4s ease;
 }
 
+
 .ambient-one {
+    left: 10%;
+    top: 7%;
+
     background:
         radial-gradient(
             circle,
-            rgba(242, 234, 219, 0.13),
-            transparent 68%
+            rgba(242, 234, 219, 0.10),
+            transparent 69%
         );
+
+    opacity: 0.42;
 
     transform:
         translate(
-            calc(var(--mouse-x) * -20px),
-            calc(var(--mouse-y) * -14px)
+            calc(var(--mouse-x) * -24px),
+            calc(var(--mouse-y) * -18px)
         );
 }
 
+
 .ambient-two {
+    right: 4%;
+    bottom: -12%;
+
     background:
         radial-gradient(
             circle,
-            rgba(120, 92, 220, 0.09),
+            rgba(119, 85, 220, 0.09),
             transparent 70%
         );
 
+    opacity: 0.28;
+
     transform:
         translate(
-            calc(var(--mouse-x) * 18px),
-            calc(var(--mouse-y) * 12px)
+            calc(var(--mouse-x) * 28px),
+            calc(var(--mouse-y) * 20px)
         );
 }
 
 
 /* =========================================================
-   NEURAL NETWORK
+   CANVAS NEURAL NETWORK
    ========================================================= */
 
-.network {
+#networkCanvas {
     position: absolute;
 
-    width: min(30vw, 420px);
-    aspect-ratio: 1;
+    inset: 0;
 
-    left: 50%;
-    top: 50%;
-
-    transform:
-        translate(
-            calc(-50% + var(--mouse-x) * 5px),
-            calc(-50% + var(--mouse-y) * 5px)
-        );
+    width: 100%;
+    height: 100%;
 
     pointer-events: none;
 
@@ -156,227 +154,48 @@ body {
 }
 
 
-/* Nodes */
-
-.node {
-    position: absolute;
-
-    width: 4px;
-    height: 4px;
-
-    border-radius: 50%;
-
-    background: rgba(242, 234, 219, 0.48);
-
-    box-shadow:
-        0 0 8px rgba(242, 234, 219, 0.18);
-
-    opacity:
-        calc(0.25 + var(--proximity) * 0.45);
-
-    transition:
-        opacity 0.4s ease,
-        transform 0.5s ease;
-}
-
-
-/* Node positions */
-
-.node-1 {
-    left: 22%;
-    top: 30%;
-}
-
-.node-2 {
-    left: 37%;
-    top: 18%;
-}
-
-.node-3 {
-    left: 63%;
-    top: 25%;
-}
-
-.node-4 {
-    left: 78%;
-    top: 42%;
-}
-
-.node-5 {
-    left: 69%;
-    top: 68%;
-}
-
-.node-6 {
-    left: 47%;
-    top: 79%;
-}
-
-.node-7 {
-    left: 27%;
-    top: 66%;
-}
-
-.node-8 {
-    left: 18%;
-    top: 48%;
-}
-
-
-/* Connections */
-
-.connection {
-    position: absolute;
-
-    height: 1px;
-
-    transform-origin: left center;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(242, 234, 219, 0.04),
-            rgba(242, 234, 219, 0.22),
-            rgba(242, 234, 219, 0.02)
-        );
-
-    opacity:
-        calc(0.15 + var(--proximity) * 0.45);
-
-    transition:
-        opacity 0.5s ease;
-}
-
-
-/* Connection geometry */
-
-.connection-1 {
-    width: 18%;
-    left: 24%;
-    top: 31%;
-    transform: rotate(-28deg);
-}
-
-.connection-2 {
-    width: 28%;
-    left: 37%;
-    top: 19%;
-    transform: rotate(15deg);
-}
-
-.connection-3 {
-    width: 24%;
-    left: 62%;
-    top: 26%;
-    transform: rotate(36deg);
-}
-
-.connection-4 {
-    width: 28%;
-    left: 70%;
-    top: 43%;
-    transform: rotate(110deg);
-}
-
-.connection-5 {
-    width: 25%;
-    left: 68%;
-    top: 68%;
-    transform: rotate(168deg);
-}
-
-.connection-6 {
-    width: 26%;
-    left: 46%;
-    top: 78%;
-    transform: rotate(205deg);
-}
-
-.connection-7 {
-    width: 25%;
-    left: 27%;
-    top: 67%;
-    transform: rotate(260deg);
-}
-
-.connection-8 {
-    width: 21%;
-    left: 19%;
-    top: 48%;
-    transform: rotate(-72deg);
-}
-
-
 /* =========================================================
-   MAIN GLASS ORB
+   MAIN ORB SYSTEM
    ========================================================= */
 
-.orb {
-    position: relative;
+.orb-system {
+    position: absolute;
 
-    width: min(30vw, 420px);
+    left: 50%;
+    top: 50%;
 
+    width: var(--orb-size);
     aspect-ratio: 1;
 
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle at 31% 24%,
-            rgba(255, 255, 255, 0.11),
-            transparent 16%
-        ),
-
-        radial-gradient(
-            circle at 68% 72%,
-            rgba(255, 255, 255, 0.025),
-            transparent 38%
-        ),
-
-        radial-gradient(
-            circle at 50% 50%,
-            rgba(27, 30, 30, 0.92) 0%,
-            rgba(13, 15, 15, 0.96) 58%,
-            rgba(4, 5, 5, 0.99) 100%
-        );
-
-    border:
-        1px solid rgba(242, 234, 219, 0.12);
-
-    box-shadow:
-        0 45px 110px rgba(0, 0, 0, 0.72),
-
-        0 0 0 1px
-        rgba(255, 255, 255, 0.025),
-
-        inset 18px 14px 45px
-        rgba(255, 255, 255, 0.035),
-
-        inset -35px -30px 70px
-        rgba(0, 0, 0, 0.78);
-
     transform:
-        translate(
-            calc(var(--mouse-x) * 8px),
-            calc(var(--mouse-y) * 8px)
+        translate3d(
+            calc(-50% + var(--mouse-x) * 17px),
+            calc(-50% + var(--mouse-y) * 15px),
+            0
+        )
+        rotateX(
+            calc(var(--mouse-y) * -4deg)
+        )
+        rotateY(
+            calc(var(--mouse-x) * 5deg)
         );
+
+    transform-style: preserve-3d;
+
+    perspective: 1200px;
+
+    z-index: 5;
 
     transition:
-        transform 0.15s ease-out;
-
-    isolation: isolate;
-
-    z-index: 2;
+        transform 0.12s ease-out;
 }
 
 
 /* =========================================================
-   ATMOSPHERIC EDGE
+   ORB AURA
    ========================================================= */
 
-.orb::before {
-    content: "";
-
+.orb-aura {
     position: absolute;
 
     inset: -12%;
@@ -387,291 +206,277 @@ body {
         radial-gradient(
             circle,
             rgba(242, 234, 219, 0.055),
-            transparent 65%
+            rgba(120, 91, 220, 0.022) 36%,
+            transparent 70%
         );
 
-    filter: blur(22px);
+    filter: blur(28px);
 
-    z-index: -2;
+    opacity:
+        calc(0.6 + var(--proximity) * 0.35);
+
+    transform:
+        scale(
+            calc(1 + var(--proximity) * 0.055)
+        );
+
+    z-index: -1;
 }
 
 
 /* =========================================================
-   GLASS REFLECTION
+   GLASS ORB SHELL
    ========================================================= */
 
-.orb::after {
-    content: "";
-
+.orb-shell {
     position: absolute;
 
-    width: 70%;
-    height: 28%;
-
-    top: 8%;
-    left: 10%;
+    inset: 6%;
 
     border-radius: 50%;
 
-    background:
-        linear-gradient(
-            120deg,
-            rgba(255, 255, 255, 0.09),
-            rgba(255, 255, 255, 0)
-        );
-
-    filter: blur(12px);
-
-    transform: rotate(-20deg);
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   INNER ATMOSPHERE
-   ========================================================= */
-
-.orb-atmosphere {
-    position: absolute;
-
-    inset: 7%;
-
-    border-radius: 50%;
+    overflow: visible;
 
     background:
         radial-gradient(
-            circle at 50% 50%,
-            transparent 42%,
-            rgba(242, 234, 219, 0.018) 62%,
-            rgba(242, 234, 219, 0.04) 100%
+            circle at 31% 23%,
+            rgba(255, 255, 255, 0.08),
+            transparent 15%
+        ),
+
+        radial-gradient(
+            circle at 68% 71%,
+            rgba(255, 255, 255, 0.018),
+            transparent 39%
+        ),
+
+        radial-gradient(
+            circle,
+            rgba(18, 21, 21, 0.83),
+            rgba(5, 6, 6, 0.92)
         );
-
-    box-shadow:
-        inset 0 0 50px
-        rgba(255, 255, 255, 0.018);
-
-    pointer-events: none;
-
-    z-index: 0;
-}
-
-
-/* =========================================================
-   INCOMPLETE WHITE TECHNICAL COATING
-   ========================================================= */
-
-.orb-coating {
-    position: absolute;
-
-    inset: -4%;
-
-    border-radius: 50%;
-
-    pointer-events: none;
 
     border:
-        1px solid transparent;
-
-    z-index: 4;
-}
-
-
-/* Main incomplete arc */
-
-.coating-one {
-    border-top-color:
-        rgba(242, 234, 219, 0.62);
-
-    border-left-color:
-        rgba(242, 234, 219, 0.16);
-
-    border-right-color:
-        transparent;
-
-    border-bottom-color:
-        transparent;
-
-    transform:
-        rotate(
-            calc(-28deg + var(--mouse-x) * 3deg)
-        );
+        1px solid
+        rgba(242, 234, 219, 0.11);
 
     box-shadow:
-        0 -1px 5px
-        rgba(242, 234, 219, 0.08);
+
+        0 50px 120px
+        rgba(0, 0, 0, 0.72),
+
+        0 0 90px
+        rgba(255, 255, 255, 0.018),
+
+        inset 20px 16px 55px
+        rgba(255, 255, 255, 0.03),
+
+        inset -40px -35px 75px
+        rgba(0, 0, 0, 0.82);
+
+    backdrop-filter:
+        blur(2px);
+
+    transform:
+        translateZ(0);
+
+    animation:
+        orb-float 8s ease-in-out infinite;
 }
 
 
-/* Secondary technical arc */
+@keyframes orb-float {
 
-.coating-two {
-    inset: -7%;
+    0%,
+    100% {
+        margin-top: 0;
+    }
 
-    border-bottom-color:
-        rgba(242, 234, 219, 0.30);
-
-    border-right-color:
-        rgba(242, 234, 219, 0.10);
-
-    border-left-color:
-        transparent;
-
-    border-top-color:
-        transparent;
-
-    transform:
-        rotate(
-            calc(38deg + var(--mouse-y) * 4deg)
-        );
-
-    opacity: 0.75;
+    50% {
+        margin-top: -4px;
+    }
 }
 
 
 /* =========================================================
-   PURPLE HEART
+   SVG
    ========================================================= */
 
-.orb-core {
+.orb-svg {
     position: absolute;
 
-    width: 24%;
+    inset: -7%;
 
-    aspect-ratio: 1;
+    width: 114%;
+    height: 114%;
 
-    left: 50%;
-    top: 50%;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle at 34% 28%,
-            #eeeaff 0%,
-            #c9bdff 8%,
-            var(--purple) 25%,
-            #654bc4 57%,
-            rgba(80, 55, 180, 0.08) 100%
-        );
-
-    box-shadow:
-        0 0 18px
-        rgba(155, 124, 255, 0.40),
-
-        0 0 55px
-        rgba(155, 124, 255, 0.20),
-
-        0 0 100px
-        rgba(155, 124, 255, 0.08);
+    overflow: visible;
 
     transform:
-        translate(
-            calc(-50% + var(--mouse-x) * 5px),
-            calc(-50% + var(--mouse-y) * 5px)
-        )
-        scale(
-            calc(1 + var(--proximity) * 0.08)
+        rotate(
+            calc(var(--mouse-x) * 1.8deg)
         );
 
     transition:
-        transform 0.2s ease-out,
-        box-shadow 0.4s ease;
-
-    z-index: 5;
-
-    animation:
-        heart-breathe 4.5s ease-in-out infinite;
+        transform 0.25s ease-out;
 }
 
 
-/* Inner heart energy */
+/* =========================================================
+   WHITE TECHNICAL COATING
+   ========================================================= */
 
-.core-inner {
+.ring {
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+
+.ring-a {
+    animation:
+        ring-spin-a 26s linear infinite;
+}
+
+
+.ring-b {
+    animation:
+        ring-spin-b 38s linear infinite reverse;
+}
+
+
+.ring-c {
+    animation:
+        ring-spin-c 48s linear infinite;
+}
+
+
+@keyframes ring-spin-a {
+
+    from {
+        transform:
+            rotate(-34deg);
+    }
+
+    to {
+        transform:
+            rotate(326deg);
+    }
+}
+
+
+@keyframes ring-spin-b {
+
+    from {
+        transform:
+            rotate(32deg);
+    }
+
+    to {
+        transform:
+            rotate(392deg);
+    }
+}
+
+
+@keyframes ring-spin-c {
+
+    from {
+        transform:
+            rotate(140deg);
+    }
+
+    to {
+        transform:
+            rotate(500deg);
+    }
+}
+
+
+/* =========================================================
+   PURPLE HEART / SHARD
+   ========================================================= */
+
+.orb-core {
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+
+/* =========================================================
+   CURSOR HALO
+   ========================================================= */
+
+.cursor-halo {
     position: absolute;
 
-    width: 45%;
-    height: 45%;
+    width: 140px;
+    height: 140px;
 
-    left: 50%;
-    top: 50%;
+    left: 0;
+    top: 0;
+
+    margin-left: -70px;
+    margin-top: -70px;
 
     border-radius: 50%;
 
-    transform: translate(-50%, -50%);
+    pointer-events: none;
 
     background:
         radial-gradient(
             circle,
-            rgba(255, 255, 255, 0.55),
-            rgba(255, 255, 255, 0.04) 42%,
-            transparent 70%
+            rgba(242, 234, 219, 0.035),
+            transparent 68%
         );
 
-    filter: blur(3px);
+    filter: blur(8px);
 
     opacity:
-        calc(0.35 + var(--proximity) * 0.45);
-}
+        calc(0.08 + var(--proximity) * 0.12);
 
+    transform:
+        translate3d(
+            var(--cursor-x, 50vw),
+            var(--cursor-y, 50vh),
+            0
+        );
 
-/* Calm heartbeat */
-
-@keyframes heart-breathe {
-
-    0%,
-    100% {
-        filter:
-            brightness(0.92);
-    }
-
-    50% {
-        filter:
-            brightness(1.06);
-    }
+    z-index: 20;
 }
 
 
 /* =========================================================
-   TECHNICAL MARKS
+   SUBTLE FILM GRAIN
    ========================================================= */
 
-.technical-mark {
+.scene::before {
+    content: "";
+
     position: absolute;
 
-    width: 18px;
-    height: 18px;
+    inset: 0;
 
     pointer-events: none;
 
-    opacity: 0.35;
+    opacity: 0.035;
 
-    border: 1px solid
-        rgba(242, 234, 219, 0.18);
-
-    transform:
-        translate(
-            calc(var(--mouse-x) * 14px),
-            calc(var(--mouse-y) * 14px)
+    background-image:
+        radial-gradient(
+            rgba(255, 255, 255, 0.7) 0.5px,
+            transparent 0.5px
         );
 
-    transition:
-        transform 0.3s ease;
-}
+    background-size:
+        5px 5px;
 
-.mark-one {
-    top: 31%;
-    left: 28%;
-}
+    mix-blend-mode: soft-light;
 
-.mark-two {
-    bottom: 28%;
-    right: 30%;
+    z-index: 30;
 }
 
 
 /* =========================================================
-   PROXIMITY RESPONSE
+   PROXIMITY VIGNETTE
    ========================================================= */
 
 .scene::after {
@@ -685,17 +490,13 @@ body {
 
     background:
         radial-gradient(
-            circle at
-            calc(50% + var(--mouse-x) * 12%)
-            calc(50% + var(--mouse-y) * 12%),
-            rgba(242, 234, 219, 0.025),
-            transparent 28%
+            ellipse at 50% 50%,
+            transparent 38%,
+            rgba(0, 0, 0, 0.16) 78%,
+            rgba(0, 0, 0, 0.4) 100%
         );
 
-    opacity:
-        calc(0.25 + var(--proximity) * 0.35);
-
-    z-index: 10;
+    z-index: 25;
 }
 
 
@@ -705,14 +506,15 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
 
-    .orb-core {
+    .orb-shell,
+    .ring-a,
+    .ring-b,
+    .ring-c {
         animation: none;
     }
 
-    .orb,
-    .network,
-    .ambient,
-    .technical-mark {
+    .orb-system,
+    .orb-svg {
         transition: none;
     }
 }
@@ -722,14 +524,9 @@ body {
    SMALL SCREENS
    ========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
 
-    .orb,
-    .network {
-        width: min(68vw, 360px);
-    }
-
-    .technical-mark {
-        display: none;
+    :root {
+        --orb-size: min(72vw, 500px);
     }
 }
