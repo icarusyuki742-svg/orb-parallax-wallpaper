@@ -62,23 +62,29 @@ body {
 
     background:
         radial-gradient(
-            circle at 34% 28%,
-            rgba(242, 234, 219, 0.16),
-            transparent 18%
+            circle at 32% 25%,
+            rgba(255, 255, 255, 0.11),
+            transparent 16%
+        ),
+        radial-gradient(
+            circle at 68% 72%,
+            rgba(255, 255, 255, 0.025),
+            transparent 38%
         ),
         radial-gradient(
             circle at 50% 50%,
-            #1b1e1e 0%,
-            #0d0f0f 62%,
-            #050606 100%
+            rgba(27, 30, 30, 0.92) 0%,
+            rgba(13, 15, 15, 0.96) 58%,
+            rgba(4, 5, 5, 0.99) 100%
         );
 
-    border: 1px solid var(--glass-border);
+    border: 1px solid rgba(242, 234, 219, 0.12);
 
     box-shadow:
-        0 40px 100px rgba(0, 0, 0, 0.65),
-        inset -30px -25px 60px rgba(0, 0, 0, 0.7),
-        inset 20px 15px 40px rgba(255, 255, 255, 0.025);
+        0 45px 110px rgba(0, 0, 0, 0.72),
+        0 0 0 1px rgba(255, 255, 255, 0.025),
+        inset 18px 14px 45px rgba(255, 255, 255, 0.035),
+        inset -35px -30px 70px rgba(0, 0, 0, 0.78);
 
     transform:
         translate(
@@ -87,7 +93,9 @@ body {
         );
 
     transition: transform 0.15s ease-out;
-}
+
+    isolation: isolate;
+} 
 
 /* Soft atmospheric glow */
 
