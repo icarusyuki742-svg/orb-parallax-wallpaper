@@ -1,18 +1,32 @@
-/* =========================================
-   ORB PARALLAX WALLPAPER — BASE
-   ========================================= */
+/* =========================================================
+   NEURAL ORB — VISUAL SYSTEM
+   ========================================================= */
 
 :root {
-    --charcoal: #090a0a;
-    --charcoal-soft: #111313;
+    --charcoal: #080909;
+    --charcoal-soft: #101212;
+
     --cream: #f2eadb;
-    --glass: rgba(255, 255, 255, 0.045);
-    --glass-border: rgba(255, 255, 255, 0.09);
-    --core: #9b7cff;
+    --cream-soft: rgba(242, 234, 219, 0.62);
+
+    --glass: rgba(255, 255, 255, 0.035);
+    --glass-light: rgba(255, 255, 255, 0.07);
+
+    --border: rgba(242, 234, 219, 0.12);
+
+    --purple: #9b7cff;
+    --purple-deep: #6046c0;
 
     --mouse-x: 0;
     --mouse-y: 0;
+
+    --proximity: 0;
 }
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
 
 * {
     box-sizing: border-box;
@@ -27,50 +41,298 @@ body {
 
 body {
     overflow: hidden;
+
     background:
         radial-gradient(
             circle at 50% 45%,
             #181b1b 0%,
             var(--charcoal-soft) 28%,
-            var(--charcoal) 70%,
-            #050606 100%
+            var(--charcoal) 68%,
+            #040505 100%
         );
 
     color: var(--cream);
-    font-family: Arial, sans-serif;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 }
+
+
+/* =========================================================
+   SCENE
+   ========================================================= */
 
 .scene {
     position: relative;
+
     width: 100vw;
     height: 100vh;
+
     overflow: hidden;
 
     display: grid;
     place-items: center;
+
+    isolation: isolate;
 }
 
-/* Main orb */
+
+/* =========================================================
+   AMBIENT LIGHT
+   ========================================================= */
+
+.ambient {
+    position: absolute;
+
+    width: 55vw;
+    height: 55vw;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    filter: blur(80px);
+
+    opacity: 0.18;
+
+    z-index: -3;
+}
+
+.ambient-one {
+    background:
+        radial-gradient(
+            circle,
+            rgba(242, 234, 219, 0.13),
+            transparent 68%
+        );
+
+    transform:
+        translate(
+            calc(var(--mouse-x) * -20px),
+            calc(var(--mouse-y) * -14px)
+        );
+}
+
+.ambient-two {
+    background:
+        radial-gradient(
+            circle,
+            rgba(120, 92, 220, 0.09),
+            transparent 70%
+        );
+
+    transform:
+        translate(
+            calc(var(--mouse-x) * 18px),
+            calc(var(--mouse-y) * 12px)
+        );
+}
+
+
+/* =========================================================
+   NEURAL NETWORK
+   ========================================================= */
+
+.network {
+    position: absolute;
+
+    width: min(30vw, 420px);
+    aspect-ratio: 1;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(
+            calc(-50% + var(--mouse-x) * 5px),
+            calc(-50% + var(--mouse-y) * 5px)
+        );
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+
+/* Nodes */
+
+.node {
+    position: absolute;
+
+    width: 4px;
+    height: 4px;
+
+    border-radius: 50%;
+
+    background: rgba(242, 234, 219, 0.48);
+
+    box-shadow:
+        0 0 8px rgba(242, 234, 219, 0.18);
+
+    opacity:
+        calc(0.25 + var(--proximity) * 0.45);
+
+    transition:
+        opacity 0.4s ease,
+        transform 0.5s ease;
+}
+
+
+/* Node positions */
+
+.node-1 {
+    left: 22%;
+    top: 30%;
+}
+
+.node-2 {
+    left: 37%;
+    top: 18%;
+}
+
+.node-3 {
+    left: 63%;
+    top: 25%;
+}
+
+.node-4 {
+    left: 78%;
+    top: 42%;
+}
+
+.node-5 {
+    left: 69%;
+    top: 68%;
+}
+
+.node-6 {
+    left: 47%;
+    top: 79%;
+}
+
+.node-7 {
+    left: 27%;
+    top: 66%;
+}
+
+.node-8 {
+    left: 18%;
+    top: 48%;
+}
+
+
+/* Connections */
+
+.connection {
+    position: absolute;
+
+    height: 1px;
+
+    transform-origin: left center;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(242, 234, 219, 0.04),
+            rgba(242, 234, 219, 0.22),
+            rgba(242, 234, 219, 0.02)
+        );
+
+    opacity:
+        calc(0.15 + var(--proximity) * 0.45);
+
+    transition:
+        opacity 0.5s ease;
+}
+
+
+/* Connection geometry */
+
+.connection-1 {
+    width: 18%;
+    left: 24%;
+    top: 31%;
+    transform: rotate(-28deg);
+}
+
+.connection-2 {
+    width: 28%;
+    left: 37%;
+    top: 19%;
+    transform: rotate(15deg);
+}
+
+.connection-3 {
+    width: 24%;
+    left: 62%;
+    top: 26%;
+    transform: rotate(36deg);
+}
+
+.connection-4 {
+    width: 28%;
+    left: 70%;
+    top: 43%;
+    transform: rotate(110deg);
+}
+
+.connection-5 {
+    width: 25%;
+    left: 68%;
+    top: 68%;
+    transform: rotate(168deg);
+}
+
+.connection-6 {
+    width: 26%;
+    left: 46%;
+    top: 78%;
+    transform: rotate(205deg);
+}
+
+.connection-7 {
+    width: 25%;
+    left: 27%;
+    top: 67%;
+    transform: rotate(260deg);
+}
+
+.connection-8 {
+    width: 21%;
+    left: 19%;
+    top: 48%;
+    transform: rotate(-72deg);
+}
+
+
+/* =========================================================
+   MAIN GLASS ORB
+   ========================================================= */
 
 .orb {
     position: relative;
 
     width: min(30vw, 420px);
+
     aspect-ratio: 1;
 
     border-radius: 50%;
 
     background:
         radial-gradient(
-            circle at 32% 25%,
+            circle at 31% 24%,
             rgba(255, 255, 255, 0.11),
             transparent 16%
         ),
+
         radial-gradient(
             circle at 68% 72%,
             rgba(255, 255, 255, 0.025),
             transparent 38%
         ),
+
         radial-gradient(
             circle at 50% 50%,
             rgba(27, 30, 30, 0.92) 0%,
@@ -78,13 +340,20 @@ body {
             rgba(4, 5, 5, 0.99) 100%
         );
 
-    border: 1px solid rgba(242, 234, 219, 0.12);
+    border:
+        1px solid rgba(242, 234, 219, 0.12);
 
     box-shadow:
         0 45px 110px rgba(0, 0, 0, 0.72),
-        0 0 0 1px rgba(255, 255, 255, 0.025),
-        inset 18px 14px 45px rgba(255, 255, 255, 0.035),
-        inset -35px -30px 70px rgba(0, 0, 0, 0.78);
+
+        0 0 0 1px
+        rgba(255, 255, 255, 0.025),
+
+        inset 18px 14px 45px
+        rgba(255, 255, 255, 0.035),
+
+        inset -35px -30px 70px
+        rgba(0, 0, 0, 0.78);
 
     transform:
         translate(
@@ -92,17 +361,24 @@ body {
             calc(var(--mouse-y) * 8px)
         );
 
-    transition: transform 0.15s ease-out;
+    transition:
+        transform 0.15s ease-out;
 
     isolation: isolate;
-} 
 
-/* Soft atmospheric glow */
+    z-index: 2;
+}
+
+
+/* =========================================================
+   ATMOSPHERIC EDGE
+   ========================================================= */
 
 .orb::before {
     content: "";
 
     position: absolute;
+
     inset: -12%;
 
     border-radius: 50%;
@@ -116,10 +392,13 @@ body {
 
     filter: blur(22px);
 
-    z-index: -1;
+    z-index: -2;
 }
 
-/* Glass reflection */
+
+/* =========================================================
+   GLASS REFLECTION
+   ========================================================= */
 
 .orb::after {
     content: "";
@@ -144,41 +423,313 @@ body {
     filter: blur(12px);
 
     transform: rotate(-20deg);
+
+    pointer-events: none;
 }
 
-/* Contrasting core */
 
-.orb-core {
+/* =========================================================
+   INNER ATMOSPHERE
+   ========================================================= */
+
+.orb-atmosphere {
     position: absolute;
 
-    width: 24%;
-    aspect-ratio: 1;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
+    inset: 7%;
 
     border-radius: 50%;
 
     background:
         radial-gradient(
-            circle at 35% 30%,
-            #d9d0ff 0%,
-            var(--core) 22%,
-            #5e46bd 55%,
-            rgba(80, 55, 180, 0.1) 100%
+            circle at 50% 50%,
+            transparent 42%,
+            rgba(242, 234, 219, 0.018) 62%,
+            rgba(242, 234, 219, 0.04) 100%
         );
 
     box-shadow:
-        0 0 20px rgba(155, 124, 255, 0.35),
-        0 0 70px rgba(155, 124, 255, 0.16);
+        inset 0 0 50px
+        rgba(255, 255, 255, 0.018);
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+
+/* =========================================================
+   INCOMPLETE WHITE TECHNICAL COATING
+   ========================================================= */
+
+.orb-coating {
+    position: absolute;
+
+    inset: -4%;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    border:
+        1px solid transparent;
+
+    z-index: 4;
+}
+
+
+/* Main incomplete arc */
+
+.coating-one {
+    border-top-color:
+        rgba(242, 234, 219, 0.62);
+
+    border-left-color:
+        rgba(242, 234, 219, 0.16);
+
+    border-right-color:
+        transparent;
+
+    border-bottom-color:
+        transparent;
+
+    transform:
+        rotate(
+            calc(-28deg + var(--mouse-x) * 3deg)
+        );
+
+    box-shadow:
+        0 -1px 5px
+        rgba(242, 234, 219, 0.08);
+}
+
+
+/* Secondary technical arc */
+
+.coating-two {
+    inset: -7%;
+
+    border-bottom-color:
+        rgba(242, 234, 219, 0.30);
+
+    border-right-color:
+        rgba(242, 234, 219, 0.10);
+
+    border-left-color:
+        transparent;
+
+    border-top-color:
+        transparent;
+
+    transform:
+        rotate(
+            calc(38deg + var(--mouse-y) * 4deg)
+        );
+
+    opacity: 0.75;
+}
+
+
+/* =========================================================
+   PURPLE HEART
+   ========================================================= */
+
+.orb-core {
+    position: absolute;
+
+    width: 24%;
+
+    aspect-ratio: 1;
+
+    left: 50%;
+    top: 50%;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 34% 28%,
+            #eeeaff 0%,
+            #c9bdff 8%,
+            var(--purple) 25%,
+            #654bc4 57%,
+            rgba(80, 55, 180, 0.08) 100%
+        );
+
+    box-shadow:
+        0 0 18px
+        rgba(155, 124, 255, 0.40),
+
+        0 0 55px
+        rgba(155, 124, 255, 0.20),
+
+        0 0 100px
+        rgba(155, 124, 255, 0.08);
 
     transform:
         translate(
             calc(-50% + var(--mouse-x) * 5px),
             calc(-50% + var(--mouse-y) * 5px)
+        )
+        scale(
+            calc(1 + var(--proximity) * 0.08)
         );
 
-    transition: transform 0.2s ease-out;
+    transition:
+        transform 0.2s ease-out,
+        box-shadow 0.4s ease;
+
+    z-index: 5;
+
+    animation:
+        heart-breathe 4.5s ease-in-out infinite;
+}
+
+
+/* Inner heart energy */
+
+.core-inner {
+    position: absolute;
+
+    width: 45%;
+    height: 45%;
+
+    left: 50%;
+    top: 50%;
+
+    border-radius: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.55),
+            rgba(255, 255, 255, 0.04) 42%,
+            transparent 70%
+        );
+
+    filter: blur(3px);
+
+    opacity:
+        calc(0.35 + var(--proximity) * 0.45);
+}
+
+
+/* Calm heartbeat */
+
+@keyframes heart-breathe {
+
+    0%,
+    100% {
+        filter:
+            brightness(0.92);
+    }
+
+    50% {
+        filter:
+            brightness(1.06);
+    }
+}
+
+
+/* =========================================================
+   TECHNICAL MARKS
+   ========================================================= */
+
+.technical-mark {
+    position: absolute;
+
+    width: 18px;
+    height: 18px;
+
+    pointer-events: none;
+
+    opacity: 0.35;
+
+    border: 1px solid
+        rgba(242, 234, 219, 0.18);
+
+    transform:
+        translate(
+            calc(var(--mouse-x) * 14px),
+            calc(var(--mouse-y) * 14px)
+        );
+
+    transition:
+        transform 0.3s ease;
+}
+
+.mark-one {
+    top: 31%;
+    left: 28%;
+}
+
+.mark-two {
+    bottom: 28%;
+    right: 30%;
+}
+
+
+/* =========================================================
+   PROXIMITY RESPONSE
+   ========================================================= */
+
+.scene::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at
+            calc(50% + var(--mouse-x) * 12%)
+            calc(50% + var(--mouse-y) * 12%),
+            rgba(242, 234, 219, 0.025),
+            transparent 28%
+        );
+
+    opacity:
+        calc(0.25 + var(--proximity) * 0.35);
+
+    z-index: 10;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .orb-core {
+        animation: none;
+    }
+
+    .orb,
+    .network,
+    .ambient,
+    .technical-mark {
+        transition: none;
+    }
+}
+
+
+/* =========================================================
+   SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .orb,
+    .network {
+        width: min(68vw, 360px);
+    }
+
+    .technical-mark {
+        display: none;
+    }
 }
