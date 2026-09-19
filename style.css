@@ -1,1 +1,176 @@
-/* Wallpaper styles */
+/* =========================================
+   ORB PARALLAX WALLPAPER — BASE
+   ========================================= */
+
+:root {
+    --charcoal: #090a0a;
+    --charcoal-soft: #111313;
+    --cream: #f2eadb;
+    --glass: rgba(255, 255, 255, 0.045);
+    --glass-border: rgba(255, 255, 255, 0.09);
+    --core: #9b7cff;
+
+    --mouse-x: 0;
+    --mouse-y: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            #181b1b 0%,
+            var(--charcoal-soft) 28%,
+            var(--charcoal) 70%,
+            #050606 100%
+        );
+
+    color: var(--cream);
+    font-family: Arial, sans-serif;
+}
+
+.scene {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    display: grid;
+    place-items: center;
+}
+
+/* Main orb */
+
+.orb {
+    position: relative;
+
+    width: min(30vw, 420px);
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 34% 28%,
+            rgba(242, 234, 219, 0.16),
+            transparent 18%
+        ),
+        radial-gradient(
+            circle at 50% 50%,
+            #1b1e1e 0%,
+            #0d0f0f 62%,
+            #050606 100%
+        );
+
+    border: 1px solid var(--glass-border);
+
+    box-shadow:
+        0 40px 100px rgba(0, 0, 0, 0.65),
+        inset -30px -25px 60px rgba(0, 0, 0, 0.7),
+        inset 20px 15px 40px rgba(255, 255, 255, 0.025);
+
+    transform:
+        translate(
+            calc(var(--mouse-x) * 8px),
+            calc(var(--mouse-y) * 8px)
+        );
+
+    transition: transform 0.15s ease-out;
+}
+
+/* Soft atmospheric glow */
+
+.orb::before {
+    content: "";
+
+    position: absolute;
+    inset: -12%;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(242, 234, 219, 0.055),
+            transparent 65%
+        );
+
+    filter: blur(22px);
+
+    z-index: -1;
+}
+
+/* Glass reflection */
+
+.orb::after {
+    content: "";
+
+    position: absolute;
+
+    width: 70%;
+    height: 28%;
+
+    top: 8%;
+    left: 10%;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0.09),
+            rgba(255, 255, 255, 0)
+        );
+
+    filter: blur(12px);
+
+    transform: rotate(-20deg);
+}
+
+/* Contrasting core */
+
+.orb-core {
+    position: absolute;
+
+    width: 24%;
+    aspect-ratio: 1;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #d9d0ff 0%,
+            var(--core) 22%,
+            #5e46bd 55%,
+            rgba(80, 55, 180, 0.1) 100%
+        );
+
+    box-shadow:
+        0 0 20px rgba(155, 124, 255, 0.35),
+        0 0 70px rgba(155, 124, 255, 0.16);
+
+    transform:
+        translate(
+            calc(-50% + var(--mouse-x) * 5px),
+            calc(-50% + var(--mouse-y) * 5px)
+        );
+
+    transition: transform 0.2s ease-out;
+}
