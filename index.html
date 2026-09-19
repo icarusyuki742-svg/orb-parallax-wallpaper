@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -15,58 +14,478 @@
 
 <body>
 
-    <main class="scene">
+<main class="scene">
 
-        <!-- Ambient background -->
-        <div class="ambient ambient-one"></div>
-        <div class="ambient ambient-two"></div>
+    <!-- Background atmosphere -->
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
 
-        <!-- Neural network -->
-        <div class="network" aria-hidden="true">
+    <!-- Neural network -->
+    <canvas
+        id="networkCanvas"
+        aria-hidden="true">
+    </canvas>
 
-            <span class="node node-1"></span>
-            <span class="node node-2"></span>
-            <span class="node node-3"></span>
-            <span class="node node-4"></span>
-            <span class="node node-5"></span>
-            <span class="node node-6"></span>
-            <span class="node node-7"></span>
-            <span class="node node-8"></span>
+    <!-- Main object -->
+    <div class="orb-system">
 
-            <span class="connection connection-1"></span>
-            <span class="connection connection-2"></span>
-            <span class="connection connection-3"></span>
-            <span class="connection connection-4"></span>
-            <span class="connection connection-5"></span>
-            <span class="connection connection-6"></span>
-            <span class="connection connection-7"></span>
-            <span class="connection connection-8"></span>
+        <div class="orb-aura"></div>
+
+        <div class="orb-shell">
+
+            <svg
+                class="orb-svg"
+                viewBox="0 0 600 600"
+                aria-hidden="true">
+
+                <defs>
+
+                    <!-- Orb surface -->
+                    <radialGradient
+                        id="orbSurface"
+                        cx="32%"
+                        cy="24%"
+                        r="78%">
+
+                        <stop
+                            offset="0%"
+                            stop-color="#343938"
+                            stop-opacity="0.68"
+                        />
+
+                        <stop
+                            offset="28%"
+                            stop-color="#1c2020"
+                            stop-opacity="0.78"
+                        />
+
+                        <stop
+                            offset="68%"
+                            stop-color="#0c0e0e"
+                            stop-opacity="0.92"
+                        />
+
+                        <stop
+                            offset="100%"
+                            stop-color="#030404"
+                            stop-opacity="0.98"
+                        />
+
+                    </radialGradient>
+
+
+                    <!-- Cream reflection -->
+                    <linearGradient
+                        id="creamReflection"
+                        x1="0"
+                        y1="0"
+                        x2="1"
+                        y2="1">
+
+                        <stop
+                            offset="0%"
+                            stop-color="#f7efdf"
+                            stop-opacity="0.35"
+                        />
+
+                        <stop
+                            offset="42%"
+                            stop-color="#f2eadb"
+                            stop-opacity="0.08"
+                        />
+
+                        <stop
+                            offset="100%"
+                            stop-color="#f2eadb"
+                            stop-opacity="0"
+                        />
+
+                    </linearGradient>
+
+
+                    <!-- Purple heart gradient -->
+                    <radialGradient
+                        id="heartGradient"
+                        cx="34%"
+                        cy="23%"
+                        r="78%">
+
+                        <stop
+                            offset="0%"
+                            stop-color="#f2efff"
+                        />
+
+                        <stop
+                            offset="11%"
+                            stop-color="#cfc3ff"
+                        />
+
+                        <stop
+                            offset="28%"
+                            stop-color="#a387ff"
+                        />
+
+                        <stop
+                            offset="58%"
+                            stop-color="#654cc9"
+                        />
+
+                        <stop
+                            offset="100%"
+                            stop-color="#291b61"
+                        />
+
+                    </radialGradient>
+
+
+                    <!-- Heart highlight -->
+                    <linearGradient
+                        id="heartHighlight"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1">
+
+                        <stop
+                            offset="0%"
+                            stop-color="#ffffff"
+                            stop-opacity="0.38"
+                        />
+
+                        <stop
+                            offset="100%"
+                            stop-color="#ffffff"
+                            stop-opacity="0"
+                        />
+
+                    </linearGradient>
+
+
+                    <!-- Glow -->
+                    <filter
+                        id="purpleGlow"
+                        x="-100%"
+                        y="-100%"
+                        width="300%"
+                        height="300%">
+
+                        <feGaussianBlur
+                            stdDeviation="16"
+                            result="blur"
+                        />
+
+                        <feMerge>
+                            <feMergeNode in="blur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+
+                    </filter>
+
+
+                    <!-- Soft shell glow -->
+                    <filter
+                        id="softGlow"
+                        x="-60%"
+                        y="-60%"
+                        width="220%"
+                        height="220%">
+
+                        <feGaussianBlur
+                            stdDeviation="9"
+                        />
+
+                    </filter>
+
+
+                    <!-- Heart clipping -->
+                    <clipPath id="heartClip">
+
+                        <path
+                            d="
+                            M300 442
+                            L218 340
+                            Q196 312 201 278
+                            Q206 240 241 226
+                            Q276 212 300 247
+                            Q324 212 359 226
+                            Q394 240 399 278
+                            Q404 312 382 340
+                            Z
+                            "
+                        />
+
+                    </clipPath>
+
+                </defs>
+
+
+                <!-- Outer atmospheric ring -->
+                <circle
+                    cx="300"
+                    cy="300"
+                    r="270"
+                    fill="none"
+                    stroke="#f2eadb"
+                    stroke-opacity="0.035"
+                    stroke-width="1"
+                />
+
+
+                <!-- Main glass sphere -->
+                <circle
+                    cx="300"
+                    cy="300"
+                    r="252"
+                    fill="url(#orbSurface)"
+                    stroke="#f2eadb"
+                    stroke-opacity="0.13"
+                    stroke-width="1.4"
+                />
+
+
+                <!-- Internal warm reflection -->
+                <ellipse
+                    cx="245"
+                    cy="205"
+                    rx="155"
+                    ry="75"
+                    fill="url(#creamReflection)"
+                    transform="rotate(-24 245 205)"
+                    filter="url(#softGlow)"
+                />
+
+
+                <!-- Subtle inner atmospheric boundary -->
+                <circle
+                    cx="300"
+                    cy="300"
+                    r="224"
+                    fill="none"
+                    stroke="#ffffff"
+                    stroke-opacity="0.025"
+                    stroke-width="1"
+                />
+
+
+                <!-- =================================================
+                     INCOMPLETE WHITE TECHNICAL COATING
+                     ================================================= -->
+
+                <circle
+                    class="ring ring-a"
+                    cx="300"
+                    cy="300"
+                    r="266"
+                    fill="none"
+                    stroke="#f2eadb"
+                    stroke-opacity="0.82"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-dasharray="230 95 115 420"
+                    transform="rotate(-34 300 300)"
+                />
+
+                <circle
+                    class="ring ring-b"
+                    cx="300"
+                    cy="300"
+                    r="278"
+                    fill="none"
+                    stroke="#f2eadb"
+                    stroke-opacity="0.34"
+                    stroke-width="1"
+                    stroke-linecap="round"
+                    stroke-dasharray="110 190 255 310"
+                    transform="rotate(32 300 300)"
+                />
+
+                <circle
+                    class="ring ring-c"
+                    cx="300"
+                    cy="300"
+                    r="290"
+                    fill="none"
+                    stroke="#ffffff"
+                    stroke-opacity="0.14"
+                    stroke-width="0.8"
+                    stroke-linecap="round"
+                    stroke-dasharray="55 330 180 300"
+                    transform="rotate(140 300 300)"
+                />
+
+
+                <!-- Small technical marks -->
+                <path
+                    d="M74 234 L88 234"
+                    stroke="#f2eadb"
+                    stroke-opacity="0.45"
+                    stroke-width="1"
+                />
+
+                <path
+                    d="M512 370 L527 370"
+                    stroke="#f2eadb"
+                    stroke-opacity="0.3"
+                    stroke-width="1"
+                />
+
+
+                <!-- =================================================
+                     PURPLE FACETED HEART / SHARD
+                     ================================================= -->
+
+                <!-- outer glow -->
+                <path
+                    d="
+                    M300 442
+                    L218 340
+                    Q196 312 201 278
+                    Q206 240 241 226
+                    Q276 212 300 247
+                    Q324 212 359 226
+                    Q394 240 399 278
+                    Q404 312 382 340
+                    Z
+                    "
+                    fill="#8d70ff"
+                    fill-opacity="0.22"
+                    filter="url(#purpleGlow)"
+                />
+
+
+                <!-- heart silhouette -->
+                <g clip-path="url(#heartClip)">
+
+                    <rect
+                        x="180"
+                        y="205"
+                        width="240"
+                        height="250"
+                        fill="url(#heartGradient)"
+                    />
+
+
+                    <!-- left facet -->
+                    <polygon
+                        points="
+                        300,247
+                        241,226
+                        205,278
+                        252,320
+                        "
+                        fill="#c2b5ff"
+                        fill-opacity="0.22"
+                    />
+
+
+                    <!-- upper right facet -->
+                    <polygon
+                        points="
+                        300,247
+                        359,226
+                        397,278
+                        348,320
+                        "
+                        fill="#7558df"
+                        fill-opacity="0.35"
+                    />
+
+
+                    <!-- center facet -->
+                    <polygon
+                        points="
+                        300,247
+                        348,320
+                        300,442
+                        252,320
+                        "
+                        fill="#8f72ff"
+                        fill-opacity="0.26"
+                    />
+
+
+                    <!-- lower dark facet -->
+                    <polygon
+                        points="
+                        252,320
+                        300,442
+                        348,320
+                        "
+                        fill="#2e205f"
+                        fill-opacity="0.45"
+                    />
+
+
+                    <!-- diagonal crystal plane -->
+                    <polygon
+                        points="
+                        300,247
+                        300,442
+                        348,320
+                        "
+                        fill="#ffffff"
+                        fill-opacity="0.06"
+                    />
+
+
+                    <!-- central shard -->
+                    <polygon
+                        points="
+                        300,263
+                        338,322
+                        300,402
+                        262,322
+                        "
+                        fill="url(#heartHighlight)"
+                        opacity="0.5"
+                    />
+
+                </g>
+
+
+                <!-- Heart outline -->
+                <path
+                    d="
+                    M300 442
+                    L218 340
+                    Q196 312 201 278
+                    Q206 240 241 226
+                    Q276 212 300 247
+                    Q324 212 359 226
+                    Q394 240 399 278
+                    Q404 312 382 340
+                    Z
+                    "
+                    fill="none"
+                    stroke="#cabdff"
+                    stroke-opacity="0.28"
+                    stroke-width="1"
+                />
+
+
+                <!-- tiny core glint -->
+                <circle
+                    cx="280"
+                    cy="277"
+                    r="10"
+                    fill="#ffffff"
+                    fill-opacity="0.28"
+                />
+
+            </svg>
+
         </div>
 
-        <!-- Main glass orb -->
-        <div class="orb">
+    </div>
 
-            <!-- Incomplete technical coating -->
-            <div class="orb-coating coating-one"></div>
-            <div class="orb-coating coating-two"></div>
 
-            <!-- Internal atmospheric layer -->
-            <div class="orb-atmosphere"></div>
+    <!-- Cursor halo -->
+    <div class="cursor-halo"></div>
 
-            <!-- Purple heart -->
-            <div class="orb-core">
-                <div class="core-inner"></div>
-            </div>
+</main>
 
-        </div>
 
-        <!-- Small peripheral technical marks -->
-        <div class="technical-mark mark-one"></div>
-        <div class="technical-mark mark-two"></div>
-
-    </main>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
