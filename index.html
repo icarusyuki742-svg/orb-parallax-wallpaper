@@ -1,94 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#020305" />
 
-    <meta charset="UTF-8">
+  <title>Planet + Black Hole — 3D Parallax Wallpaper</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Neural Shard</title>
-
-    <link rel="stylesheet" href="style.css">
-
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 
 <body>
 
-    <main class="scene">
+  <main id="wallpaper" aria-label="Interactive 3D space wallpaper">
 
-        <!-- Background atmosphere -->
-        <div class="ambient ambient-left"></div>
-        <div class="ambient ambient-right"></div>
+    <canvas id="space"></canvas>
 
+    <div id="loading" class="overlay">
+      Loading 3D scene…
+    </div>
 
-        <!-- Very subtle neural network -->
-        <canvas
-            id="networkCanvas">
-        </canvas>
+    <div id="hint" class="overlay hint">
+      Move your mouse • Space pauses motion
+    </div>
 
+  </main>
 
-        <!-- Main object -->
-        <section class="artifact">
-
-            <!-- Outer soft aura -->
-            <div class="artifact-aura"></div>
-
-
-            <!-- Concrete / glass shell -->
-            <div class="shell">
-
-                <!-- Concrete highlight -->
-                <div class="shell-light"></div>
-
-                <!-- Interior darkness -->
-                <div class="inner-space"></div>
-
-
-                <!-- Technical incomplete coating -->
-                <div class="technical-ring ring-1"></div>
-
-                <div class="technical-ring ring-2"></div>
-
-                <div class="technical-ring ring-3"></div>
-
-
-                <!-- Purple crystal -->
-                <div class="crystal">
-
-                    <div class="crystal-face face-left"></div>
-
-                    <div class="crystal-face face-right"></div>
-
-                    <div class="crystal-face face-center"></div>
-
-                    <div class="crystal-edge"></div>
-
-                    <div class="crystal-light"></div>
-
-                </div>
-
-
-                <!-- tiny inner light -->
-                <div class="core-light"></div>
-
-            </div>
-
-        </section>
-
-
-        <!-- Mouse proximity glow -->
-        <div class="cursor-glow"></div>
-
-    </main>
-
-
-    <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 
 </body>
-
 </html>
