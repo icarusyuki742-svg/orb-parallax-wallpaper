@@ -1,113 +1,96 @@
 /* =========================================================
-   NEURAL ORB
-   FINAL INTERACTION SYSTEM
+   NEURAL SHARD
+   MOUSE / PARALLAX / PROXIMITY SYSTEM
    ========================================================= */
 
-const root = document.documentElement;
-const canvas = document.getElementById("networkCanvas");
 
-const context = canvas.getContext("2d");
+const root =
+    document.documentElement;
+
+const canvas =
+    document.getElementById(
+        "networkCanvas"
+    );
+
+const ctx =
+    canvas.getContext("2d");
 
 
 /* =========================================================
    STATE
    ========================================================= */
 
-let width = window.innerWidth;
-let height = window.innerHeight;
-let pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+let width =
+    window.innerWidth;
+
+let height =
+    window.innerHeight;
 
 let targetX = 0;
 let targetY = 0;
 
-let currentX = 0;
-let currentY = 0;
+let mouseX = width / 2;
+let mouseY = height / 2;
+
+let smoothX = 0;
+let smoothY = 0;
 
 let targetProximity = 0;
-let currentProximity = 0;
-
-let cursorX = width / 2;
-let cursorY = height / 2;
+let proximity = 0;
 
 
 /* =========================================================
-   RESIZE
+   CANVAS
    ========================================================= */
 
-function resize() {
+function resizeCanvas() {
 
-    width = window.innerWidth;
-    height = window.innerHeight;
+    width =
+        window.innerWidth;
 
-    pixelRatio =
-        Math.min(window.devicePixelRatio || 1, 2);
+    height =
+        window.innerHeight;
+
+
+    const ratio =
+        Math.min(
+            window.devicePixelRatio || 1,
+            2
+        );
+
 
     canvas.width =
-        width * pixelRatio;
+        width * ratio;
 
     canvas.height =
-        height * pixelRatio;
+        height * ratio;
+
 
     canvas.style.width =
-        `${width}px`;
+        width + "px";
 
     canvas.style.height =
-        `${height}px`;
+        height + "px";
 
-    context.setTransform(
-        pixelRatio,
+
+    ctx.setTransform(
+        ratio,
         0,
         0,
-        pixelRatio,
+        ratio,
         0,
         0
     );
 }
 
+
 window.addEventListener(
     "resize",
-    resize
+    resizeCanvas
 );
 
-resize();
 
-
-/* =========================================================
-   NEURAL NETWORK NODES
-   ========================================================= */
-
-const nodes = [];
-
-const nodeCount = 34;
-
-for (let i = 0; i < nodeCount; i++) {
-
-    const angle =
-        i * 2.3999632297;
-
-    const ring =
-        0.26 +
-        ((i * 17) % 100) / 100 * 0.32;
-
-    nodes.push({
-
-        angle,
-
-        radius:
-            ring,
-
-        phase:
-            i * 0.73,
-
-        speed:
-            0.35 +
-            (i % 5) * 0.08,
-
-        size:
-            1.1 +
-            (i % 3) * 0.45
-    });
-}
+resizeCanvas();
 
 
 /* =========================================================
@@ -118,28 +101,39 @@ window.addEventListener(
     "mousemove",
     (event) => {
 
-        cursorX = event.clientX;
-        cursorY = event.clientY;
+        mouseX =
+            event.clientX;
+
+        mouseY =
+            event.clientY;
+
 
         targetX =
-            (cursorX / width - 0.5) * 2;
+            (
+                mouseX / width
+                - 0.5
+            ) * 2;
+
 
         targetY =
-            (cursorY / height - 0.5) * 2;
+            (
+                mouseY / height
+                - 0.5
+            ) * 2;
 
 
         const centerX =
-            width * 0.5;
+            width / 2;
 
         const centerY =
-            height * 0.5;
+            height / 2;
 
 
         const dx =
-            cursorX - centerX;
+            mouseX - centerX;
 
         const dy =
-            cursorY - centerY;
+            mouseY - centerY;
 
 
         const distance =
@@ -149,93 +143,86 @@ window.addEventListener(
             );
 
 
-        const proximityRange =
-            Math.min(width, height) * 0.55;
+        const range =
+            Math.min(
+                width,
+                height
+            ) * 0.48;
 
 
         targetProximity =
-            1 -
-            Math.min(
-                distance / proximityRange,
-                1
+            Math.max(
+                0,
+                1 - distance / range
             );
 
 
         root.style.setProperty(
             "--cursor-x",
-            `${cursorX}px`
+            mouseX + "px"
         );
 
         root.style.setProperty(
             "--cursor-y",
-            `${cursorY}px`
+            mouseY + "px"
         );
+
     }
 );
 
 
 /* =========================================================
-   NETWORK POSITION
+   NEURAL NODES
    ========================================================= */
 
-function getNodePosition(node, time) {
+const nodes = [];
 
-    const centerX =
-        width * 0.5;
-
-    const centerY =
-        height * 0.5;
-
-    const orbRadius =
-        Math.min(width, height) * 0.255;
+const NODE_COUNT = 22;
 
 
-    const breathing =
-        Math.sin(
-            time * node.speed +
-            node.phase
-        ) * 0.012;
+for (
+    let i = 0;
+    i < NODE_COUNT;
+    i++
+) {
+
+    const angle =
+        (
+            Math.PI * 2 /
+            NODE_COUNT
+        ) * i;
 
 
     const radius =
-        node.radius +
-        breathing;
+        0.42 +
+        Math.random() * 0.24;
 
 
-    const angle =
-        node.angle +
-        Math.sin(
-            time * 0.00015 +
-            node.phase
-        ) * 0.045;
+    nodes.push({
 
+        angle,
 
-    return {
+        radius,
 
-        x:
-            centerX +
-            Math.cos(angle) *
-            orbRadius *
-            radius +
-            currentX * 8,
+        phase:
+            Math.random() * Math.PI * 2,
 
-        y:
-            centerY +
-            Math.sin(angle) *
-            orbRadius *
-            radius +
-            currentY * 7
-    };
+        speed:
+            0.00025 +
+            Math.random() * 0.00035
+
+    });
+
 }
 
 
 /* =========================================================
-   DRAW NETWORK
+   DRAW NEURAL NETWORK
    ========================================================= */
 
 function drawNetwork(time) {
 
-    context.clearRect(
+    ctx.clearRect(
         0,
         0,
         width,
@@ -243,14 +230,59 @@ function drawNetwork(time) {
     );
 
 
+    const centerX =
+        width / 2 +
+        smoothX * 12;
+
+
+    const centerY =
+        height / 2 +
+        smoothY * 10;
+
+
+    const baseRadius =
+        Math.min(
+            width,
+            height
+        ) * 0.27;
+
+
     const positions =
-        nodes.map(
-            node =>
-                getNodePosition(
-                    node,
-                    time
-                )
-        );
+        [];
+
+
+    nodes.forEach(
+        (node) => {
+
+            const angle =
+                node.angle +
+                Math.sin(
+                    time * node.speed +
+                    node.phase
+                ) * 0.025;
+
+
+            const radius =
+                baseRadius *
+                node.radius;
+
+
+            positions.push({
+
+                x:
+                    centerX +
+                    Math.cos(angle) *
+                    radius,
+
+                y:
+                    centerY +
+                    Math.sin(angle) *
+                    radius
+
+            });
+
+        }
+    );
 
 
     /* ---------------------------------------------
@@ -290,100 +322,55 @@ function drawNetwork(time) {
                 );
 
 
-            if (distance > 105) {
+            if (
+                distance > 120
+            ) {
                 continue;
             }
 
 
             const strength =
-                Math.max(
-                    0,
-                    1 -
-                    distance / 105
-                );
+                1 -
+                distance / 120;
 
 
             const alpha =
                 (
                     0.025 +
                     strength * 0.075
-                )
-                *
+                ) *
                 (
-                    0.75 +
-                    currentProximity * 1.25
+                    0.8 +
+                    proximity * 0.9
                 );
 
 
-            context.beginPath();
+            ctx.beginPath();
 
-            context.moveTo(
+            ctx.moveTo(
                 a.x,
                 a.y
             );
 
-            context.lineTo(
+            ctx.lineTo(
                 b.x,
                 b.y
             );
 
 
-            context.strokeStyle =
-                `rgba(242, 234, 219, ${alpha})`;
+            ctx.strokeStyle =
+                `rgba(232,225,212,${alpha})`;
 
-            context.lineWidth =
-                0.65;
 
-            context.stroke();
+            ctx.lineWidth =
+                0.7;
+
+
+            ctx.stroke();
+
         }
+
     }
-
-
-    /* ---------------------------------------------
-       Moving neural pulse
-       --------------------------------------------- */
-
-    const pulseIndex =
-        Math.floor(
-            time * 0.0007
-        ) %
-        positions.length;
-
-
-    const pulse =
-        positions[pulseIndex];
-
-
-    context.beginPath();
-
-    context.arc(
-        pulse.x,
-        pulse.y,
-        2.2 +
-        currentProximity * 2.2,
-        0,
-        Math.PI * 2
-    );
-
-
-    context.fillStyle =
-        `rgba(155, 124, 255, ${
-            0.28 +
-            currentProximity * 0.42
-        })`;
-
-
-    context.shadowBlur =
-        12;
-
-    context.shadowColor =
-        "rgba(155, 124, 255, 0.65)";
-
-
-    context.fill();
-
-
-    context.shadowBlur = 0;
 
 
     /* ---------------------------------------------
@@ -391,98 +378,108 @@ function drawNetwork(time) {
        --------------------------------------------- */
 
     positions.forEach(
-        (position, index) => {
+        (point, index) => {
 
-            const node =
-                nodes[index];
-
-
-            const pulseAmount =
+            const pulse =
                 (
                     Math.sin(
-                        time * 0.0014 *
-                        node.speed +
-                        node.phase
+                        time * 0.0015 +
+                        nodes[index].phase
                     ) + 1
                 ) / 2;
 
 
             const radius =
-                node.size +
-                pulseAmount *
-                0.8 +
-                currentProximity *
-                0.8;
+                1.1 +
+                pulse * 0.6 +
+                proximity * 0.7;
 
 
-            context.beginPath();
+            ctx.beginPath();
 
-            context.arc(
-                position.x,
-                position.y,
+            ctx.arc(
+                point.x,
+                point.y,
                 radius,
                 0,
                 Math.PI * 2
             );
 
 
-            context.fillStyle =
-                `rgba(242, 234, 219, ${
-                    0.12 +
-                    pulseAmount * 0.12 +
-                    currentProximity * 0.18
-                })`;
+            ctx.fillStyle =
+                `rgba(
+                    232,
+                    225,
+                    212,
+                    ${
+                        0.10 +
+                        pulse * 0.08 +
+                        proximity * 0.16
+                    }
+                )`;
 
 
-            context.fill();
+            ctx.fill();
+
         }
     );
+
 }
 
 
 /* =========================================================
-   ANIMATION
+   ANIMATION LOOP
    ========================================================= */
 
 function animate(time) {
 
+
     /* Smooth parallax */
 
-    currentX +=
-        (targetX - currentX) *
-        0.035;
+    smoothX +=
+        (
+            targetX -
+            smoothX
+        ) * 0.045;
 
-    currentY +=
-        (targetY - currentY) *
-        0.035;
+
+    smoothY +=
+        (
+            targetY -
+            smoothY
+        ) * 0.045;
 
 
     /* Smooth proximity */
 
-    currentProximity +=
-        (targetProximity - currentProximity) *
-        0.045;
+    proximity +=
+        (
+            targetProximity -
+            proximity
+        ) * 0.055;
 
 
-    /* Send values into CSS */
+    /* CSS values */
 
     root.style.setProperty(
         "--mouse-x",
-        currentX
+        smoothX
     );
+
 
     root.style.setProperty(
         "--mouse-y",
-        currentY
+        smoothY
     );
+
 
     root.style.setProperty(
         "--proximity",
-        currentProximity
+        proximity
     );
 
 
-    /* Draw neural network */
+    /* Neural network */
 
     drawNetwork(time);
 
@@ -490,6 +487,7 @@ function animate(time) {
     requestAnimationFrame(
         animate
     );
+
 }
 
 
